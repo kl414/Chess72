@@ -1,4 +1,11 @@
 package chess;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import pieces.*;
+
+
 /**
  * 
  * @author Hongjie Lin
@@ -8,14 +15,25 @@ public class Board {
 	private static final int ROWS = 9;
 	private static final int COLS = 9;
 	private String[] board;
-	private String[] pieces;
+	/*
+	 * The hashmap is used to store the alive pieces
+	 * access by the postion on board
+	 */
+	private HashMap<String, Piece> pieces;
 	
+	/*
+	 * access the element by (row * COLS + col)
+	 * treat a as 0, b as 1
+	 * e.g (a1 == 1*9 + 0, b2 = 2*9 + 1)
+	 */
 	public Board(){
 		plainBoard();
+		pieces = new HashMap<String, Piece>();
+		initPieces();
+		fillPieces();
 	}
 	/**
 	 * init the 2D array without any pieces
-	 * access the element by (row * COLS + col)
 	 */
 	public void plainBoard(){
 		board = new String[ROWS*COLS];
@@ -41,7 +59,41 @@ public class Board {
 		}
 	}
 	
+	public void initPieces(){
+		pieces.put("a8", new Rook("b", 8, 0));
+		pieces.put("h8", new Rook("b", 8, 7));
+		pieces.put("b8", new Knight("b", 8, 1));
+		pieces.put("g8", new Knight("b", 8, 6));
+		pieces.put("c8", new Bishop("b", 8, 2));
+		pieces.put("f8", new Bishop("b", 8, 5));
+		pieces.put("d8", new Queen("b", 8, 3));
+		pieces.put("e8", new King("b", 8, 4));
+		for(int i = 0; i < 8; i++){
+			pieces.put(""+(char)(i+97)+"7", new Pawn("b", 7, i));
+		}
+		
+		for(int i = 0; i < 8; i++){
+			pieces.put(""+(char)(i+97)+"2", new Pawn("w", 2, i));
+		}
+		pieces.put("a1", new Rook("w", 1, 0));
+		pieces.put("h1", new Rook("w", 1, 7));
+		pieces.put("b1", new Knight("w", 1, 1));
+		pieces.put("g1", new Knight("w", 1, 6));
+		pieces.put("c1", new Bishop("w", 1, 2));
+		pieces.put("f1", new Bishop("w", 1, 5));
+		pieces.put("d1", new Queen("w", 1, 3));
+		pieces.put("e1", new King("w", 1, 4));
+	}
 	
+	/**
+	 * fill the pieces into the plain board
+	 */
+	public void fillPieces(){
+		for(String key: pieces.keySet()){
+			Piece piece = pieces.get(key);
+			board[piece.x * COLS + piece.y] = piece.toString();
+		}
+	}
 	public void display(){
 		for(int i = ROWS; i > 0; i--){
 			for(int j = 0; j < COLS; j++){

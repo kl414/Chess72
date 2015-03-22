@@ -16,10 +16,11 @@ public class Piece {
 		this.y = y;
 	}
 	
+	public void setXY(int x, int y){
+		this.x = x;
+		this.y = y;
+	}
 	public String toString(){
-		if(color.equals("black"))
-			return "b" + name;
-		else
-			return "w" + name;
+		return color + name;
 	}
 }
