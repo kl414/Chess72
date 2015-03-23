@@ -4,6 +4,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+import pieces.Piece;
+
 /**
  * 
  * @author Hongjie Lin
@@ -11,6 +13,7 @@ import java.io.InputStreamReader;
  */
 public class Chess {
 	static int drawFlag;
+	static int resignFlag;
 	public static void main(String[] args){
 		Board board = new Board();
 		board.display();
@@ -26,6 +29,24 @@ public class Chess {
 					continue;
 				}
 				flag = 1;
+				if(resignFlag == 0 && drawFlag == 0){
+					String[] tokens = input.split(" ");
+					Piece temp = Board.pieces.get(tokens[0]);
+					if(!temp.isValid(tokens[0], tokens[1]) || !temp.color.equals("w")){
+						System.out.println("Illegal move, try again");
+						System.out.println();
+						continue;
+					}else{
+						board.pieces.remove(tokens[0]);
+						board.pieces.remove(tokens[1]);
+						char newY = tokens[1].charAt(0);
+						int newX = Integer.parseInt(tokens[1].substring(1));
+						temp.setXY(newX, newY-'a');
+						board.pieces.put(tokens[1], temp);
+						Board.drawBoard();
+					}
+				}
+				
 			}
 			if(flag == 1){
 				input = bMove();
@@ -36,6 +57,23 @@ public class Chess {
 					continue;
 				}
 				flag = 0;
+				if(resignFlag == 0 && drawFlag == 0){
+					String[] tokens = input.split(" ");
+					Piece temp = Board.pieces.get(tokens[0]);
+					if(!temp.isValid(tokens[0], tokens[1]) || !temp.color.equals("b")){
+						System.out.println("Illegal move, try again");
+						System.out.println();
+						continue;
+					}else{
+						board.pieces.remove(tokens[0]);
+						board.pieces.remove(tokens[1]);
+						char newY = tokens[1].charAt(0);
+						int newX = Integer.parseInt(tokens[1].substring(1));
+						temp.setXY(newX, newY-'a');
+						board.pieces.put(tokens[1], temp);
+						Board.drawBoard();
+					}
+				}
 			}
 		}
 	}
@@ -43,8 +81,10 @@ public class Chess {
 	public static boolean isValid(String input){
 		if(input == null || input.equals(""))
 			return false;
-		else if(input.equals("resign"))
+		else if(input.equals("resign")){
+			resignFlag = 1;
 			return true;
+		}
 		else if(input.equals("draw")){
 			if(drawFlag == 1)
 				return true;

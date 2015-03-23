@@ -14,7 +14,7 @@ import pieces.*;
 public class Board {
 	private static final int ROWS = 9;
 	private static final int COLS = 9;
-	private String[] board;
+	private static String[] board;
 	/*
 	 * The hashmap is used to store the alive pieces
 	 * access by the postion on board
@@ -35,7 +35,12 @@ public class Board {
 	/**
 	 * init the 2D array without any pieces
 	 */
-	public void plainBoard(){
+	public static void drawBoard(){
+		plainBoard();
+		fillPieces();
+		display();
+	}
+	public static void plainBoard(){
 		board = new String[ROWS*COLS];
 		int flag = 1;
 		for(int i = 0; i < board.length; i++){
@@ -88,13 +93,14 @@ public class Board {
 	/**
 	 * fill the pieces into the plain board
 	 */
-	public void fillPieces(){
+	public static void fillPieces(){
 		for(String key: pieces.keySet()){
 			Piece piece = pieces.get(key);
-			board[piece.x * COLS + piece.y] = piece.toString();
+			if(piece != null)
+				board[piece.x * COLS + piece.y] = piece.toString();
 		}
 	}
-	public void display(){
+	public static void display(){
 		for(int i = ROWS; i > 0; i--){
 			for(int j = 0; j < COLS; j++){
 				System.out.print(board[(i-1)*COLS+j] + " ");

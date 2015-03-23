@@ -25,6 +25,10 @@ public class Piece {
 		this.y = y;
 	}
 	
+	public boolean isValid(String oldPosition, String newPosition){
+		return true;
+	}
+	
 	public boolean spotTaken(String newPosition){
 		if (Board.pieces.get(newPosition) == null){
 			//valid to move
