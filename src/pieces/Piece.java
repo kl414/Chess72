@@ -21,6 +21,7 @@ public class Piece {
 		this.color = color;
 		this.x = x;
 		this.y = y;
+
 	}
 	
 	public void setXY(int x, int y){
@@ -50,6 +51,10 @@ public class Piece {
 	public void getMoves(){
 		possibleMoves = new ArrayList<String>();
 	}
+	public boolean hasPath(String oldPosition, String newPosition){
+		return true;
+	}
+	
 	public String toString(){
 		return color + name;
 	}
