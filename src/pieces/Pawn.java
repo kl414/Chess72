@@ -1,4 +1,7 @@
 package pieces;
+
+import chess.Board;
+
 /**
  * 
  * @author Edward Mamedov
@@ -30,8 +33,10 @@ public class Pawn extends Piece{
 
 		if (deltaY == 1 && deltaX == 0 && !spotTaken(newPosition)){
 			legal = true;
-		} else if (deltaX == 1 && deltaY == 1 && !spotTaken(newPosition)){  //pawn capture
-			legal  = true;
+		} else if (deltaX == 1 && deltaY == 1 && Board.pieces.get(newPosition)!=null){  //pawn capture IMPLEMENT CASE WHERE PAWN IS ONLY OPPOSITE COLOR
+			if (Board.pieces.get(newPosition).color!=color){
+				legal  = true;
+			}
 		} else if (this.firstMove == true && deltaY == 2 && deltaX == 0 && !spotTaken(newPosition)){
 			legal = true;
 
