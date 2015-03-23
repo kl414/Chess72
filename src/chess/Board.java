@@ -19,7 +19,7 @@ public class Board {
 	 * The hashmap is used to store the alive pieces
 	 * access by the postion on board
 	 */
-	private HashMap<String, Piece> pieces;
+	public static HashMap<String, Piece> pieces;
 	
 	/*
 	 * access the element by (row * COLS + col)
