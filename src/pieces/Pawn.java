@@ -51,10 +51,6 @@ public class Pawn extends Piece{
 
 		}
 
-		/*	if (legal == true){
-		this.firstMove = false;
-	}
-		 */	
 		return legal;
 	}
 }
