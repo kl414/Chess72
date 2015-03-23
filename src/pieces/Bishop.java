@@ -6,7 +6,7 @@ import chess.Board;
 
 /**
  * 
- * @author Hongjie Lin
+ * @author Edward Mamedov
  *
  */
 public class Bishop extends Piece{

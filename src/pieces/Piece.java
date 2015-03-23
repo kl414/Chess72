@@ -5,7 +5,7 @@ import chess.Board;
 /**
  * 
  * @author Hongjie Lin
- *
+ * @author Edward Mamedov
  */
 public class Piece {
 	public String color;

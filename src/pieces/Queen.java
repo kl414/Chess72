@@ -1,7 +1,7 @@
 package pieces;
 /**
  * 
- * @author Hongjie Lin
+ * @author Edward Mamedov
  *
  */
 public class Queen extends Piece{
