@@ -1,4 +1,7 @@
 package pieces;
+
+import java.util.ArrayList;
+
 /**
  * 
  * @author Edward Mamedov
@@ -9,7 +12,19 @@ public class King extends Piece{
 		super(color, x, y);
 		name = "K";
 	}
-
+	
+	public void getMoves(){
+		char yLetter = (char)(y + 97);
+		String oldPosition = "" + yLetter + x;
+		
+		possibleMoves = new ArrayList<String>();
+		for(String newPosition: allPosition){
+			if(isValid(oldPosition, newPosition)){
+				possibleMoves.add(newPosition);
+			}
+		}
+	}
+	
 	public boolean isValid(String oldPosition, String newPosition){
 		int oldX = Integer.parseInt(oldPosition.substring(1));
 		int oldY = (oldPosition.charAt(0)-'a');

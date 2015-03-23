@@ -1,5 +1,7 @@
 package pieces;
 
+import java.util.ArrayList;
+
 import chess.Board;
 
 /**
@@ -12,7 +14,19 @@ public class Pawn extends Piece{
 		super(color, x, y);
 		name = "p";
 	}
-
+	
+	public void getMoves(){
+		char yLetter = (char)(y + 97);
+		String oldPosition = "" + yLetter + x;
+		
+		possibleMoves = new ArrayList<String>();
+		for(String newPosition: allPosition){
+			if(isValid(oldPosition, newPosition)){
+				possibleMoves.add(newPosition);
+			}
+		}
+	}
+	
 	public boolean isValid(String oldPosition, String newPosition) {
 		int oldX = Integer.parseInt(oldPosition.substring(1));
 		int oldY = (oldPosition.charAt(0)-'a');
@@ -31,13 +45,13 @@ public class Pawn extends Piece{
 
 		deltaX = Math.abs(newX-oldX);
 
-		if (deltaY == 1 && deltaX == 0 && !spotTaken(newPosition)){
+		if (deltaY == 0 && deltaX == 1 && !spotTaken(newPosition)){
 			legal = true;
 		} else if (deltaX == 1 && deltaY == 1 && Board.pieces.get(newPosition)!=null){  //pawn capture IMPLEMENT CASE WHERE PAWN IS ONLY OPPOSITE COLOR
 			if (Board.pieces.get(newPosition).color!=color){
 				legal  = true;
 			}
-		} else if (this.firstMove == true && deltaY == 2 && deltaX == 0 && !spotTaken(newPosition)){
+		} else if (this.firstMove == true && deltaY == 0 && deltaX == 2 && !spotTaken(newPosition)){
 			legal = true;
 
 		}

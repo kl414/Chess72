@@ -1,5 +1,7 @@
 package pieces;
 
+import java.util.ArrayList;
+
 import chess.Board;
 
 /**
@@ -13,11 +15,19 @@ public class Piece {
 	public int x; //row in matrix
 	public int y; //column in matrix
 	boolean firstMove = true; //set to false within every piece object
+	public ArrayList<String> possibleMoves;
+	public ArrayList<String> allPosition;
 	
 	public Piece(String color, int x, int y){
 		this.color = color;
 		this.x = x;
 		this.y = y;
+		allPosition = new ArrayList<String>();
+		for(int i = 0; i < 8; i++){
+			for(int j = 1; j < 9; i++){
+				allPosition.add(""+(char)(i+97)+j);
+			}
+		}
 	}
 	
 	public void setXY(int x, int y){
@@ -44,6 +54,9 @@ public class Piece {
 		}
 	}
 	
+	public void getMoves(){
+		possibleMoves = new ArrayList<String>();
+	}
 	public String toString(){
 		return color + name;
 	}

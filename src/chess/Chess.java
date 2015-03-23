@@ -28,11 +28,10 @@ public class Chess {
 					System.out.println();
 					continue;
 				}
-				flag = 1;
 				if(resignFlag == 0 && drawFlag == 0){
 					String[] tokens = input.split(" ");
 					Piece temp = Board.pieces.get(tokens[0]);
-					if(!temp.isValid(tokens[0], tokens[1]) || !temp.color.equals("w")){
+					if(temp == null || !temp.isValid(tokens[0], tokens[1]) || !temp.color.equals("w")){
 						System.out.println("Illegal move, try again");
 						System.out.println();
 						continue;
@@ -46,6 +45,8 @@ public class Chess {
 						Board.drawBoard();
 					}
 				}
+
+				flag = 1;
 				
 			}
 			if(flag == 1){
@@ -56,11 +57,11 @@ public class Chess {
 					System.out.println();
 					continue;
 				}
-				flag = 0;
+			
 				if(resignFlag == 0 && drawFlag == 0){
 					String[] tokens = input.split(" ");
 					Piece temp = Board.pieces.get(tokens[0]);
-					if(!temp.isValid(tokens[0], tokens[1]) || !temp.color.equals("b")){
+					if(temp == null || !temp.isValid(tokens[0], tokens[1]) || !temp.color.equals("b")){
 						System.out.println("Illegal move, try again");
 						System.out.println();
 						continue;
@@ -74,6 +75,7 @@ public class Chess {
 						Board.drawBoard();
 					}
 				}
+				flag = 0;
 			}
 		}
 	}
