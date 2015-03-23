@@ -20,7 +20,7 @@ public class Bishop extends Piece{
 		
 		int tempX = x+1;
 		int tempY = y+1;
-		while(tempX < 8 && tempY < 9){
+		while(tempX < 9 && tempY < 8){
 			char yLetter = (char)(tempY + 97);
 			String newPosition = "" + yLetter + tempX;
 			Piece temp = Board.pieces.get(newPosition);
@@ -37,7 +37,7 @@ public class Bishop extends Piece{
 		
 		tempX = x+1;
 		tempY = y-1;
-		while(tempX < 9 && tempY > 0){
+		while(tempX < 9 && tempY >= 0){
 			char yLetter = (char)(tempY + 97);
 			String newPosition = "" + yLetter + tempX;
 			Piece temp = Board.pieces.get(newPosition);
@@ -54,7 +54,7 @@ public class Bishop extends Piece{
 		
 		tempX = x-1;
 		tempY = y-1;
-		while(tempX > 1 && tempY > 0){
+		while(tempX > 0 && tempY >= 0){
 			char yLetter = (char)(tempY + 97);
 			String newPosition = "" + yLetter + tempX;
 			Piece temp = Board.pieces.get(newPosition);
@@ -71,7 +71,7 @@ public class Bishop extends Piece{
 		
 		tempX = x-1;
 		tempY = y+1;
-		while(tempX > 1 && tempY < 8){
+		while(tempX > 0 && tempY < 8){
 			char yLetter = (char)(tempY + 97);
 			String newPosition = "" + yLetter + tempX;
 			Piece temp = Board.pieces.get(newPosition);
@@ -85,7 +85,7 @@ public class Bishop extends Piece{
 			}else
 				break;
 		}
-		System.out.println(possibleMoves);
+		
 	}
 	
 	public boolean isValid(String oldPosition, String newPosition) {

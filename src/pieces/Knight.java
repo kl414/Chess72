@@ -2,6 +2,8 @@ package pieces;
 
 import java.util.ArrayList;
 
+import chess.Board;
+
 /**
  * 
  * @author Edward Mamedov
@@ -18,7 +20,7 @@ public class Knight extends Piece{
 		String oldPosition = "" + yLetter + x;
 		
 		possibleMoves = new ArrayList<String>();
-		for(String newPosition: allPosition){
+		for(String newPosition: Board.allPosition){
 			if(isValid(oldPosition, newPosition)){
 				possibleMoves.add(newPosition);
 			}

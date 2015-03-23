@@ -15,6 +15,8 @@ public class Board {
 	private static final int ROWS = 9;
 	private static final int COLS = 9;
 	private static String[] board;
+
+	public static ArrayList<String> allPosition;
 	/*
 	 * The hashmap is used to store the alive pieces
 	 * access by the postion on board
@@ -31,6 +33,13 @@ public class Board {
 		pieces = new HashMap<String, Piece>();
 		initPieces();
 		fillPieces();
+
+		allPosition = new ArrayList<String>();
+		for(int i = 0; i < 8; i++){
+			for(int j = 1; j < 9; j++){
+				allPosition.add(""+(char)(i+97)+j);
+			}
+		}
 	}
 	/**
 	 * init the 2D array without any pieces

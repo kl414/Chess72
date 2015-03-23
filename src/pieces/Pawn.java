@@ -20,7 +20,7 @@ public class Pawn extends Piece{
 		String oldPosition = "" + yLetter + x;
 		
 		possibleMoves = new ArrayList<String>();
-		for(String newPosition: allPosition){
+		for(String newPosition: Board.allPosition){
 			if(isValid(oldPosition, newPosition)){
 				possibleMoves.add(newPosition);
 			}
@@ -37,12 +37,7 @@ public class Pawn extends Piece{
 		int deltaY;
 		boolean legal = false;
 
-		if (this.color.equals("w")){
-			deltaY = -(newY-oldY);
-		}else{
-			deltaY = newY - oldY;
-		}
-
+		deltaY = Math.abs(oldY - newY);
 		deltaX = Math.abs(newX-oldX);
 
 		if (deltaY == 0 && deltaX == 1 && !spotTaken(newPosition)){
