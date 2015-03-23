@@ -14,7 +14,7 @@ public class Piece {
 	public String name; //name used to print on terminal, e.g (bK, wN)
 	public int x; //row in matrix
 	public int y; //column in matrix
-	boolean firstMove = true; //set to false within every piece object
+	public boolean firstMove = true; //set to false within every piece object
 	public ArrayList<String> possibleMoves;
 	
 	public Piece(String color, int x, int y){

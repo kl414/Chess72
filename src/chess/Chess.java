@@ -32,8 +32,22 @@ public class Chess {
 				if(resignFlag == 0 && drawFlag == 0){
 					String[] tokens = input.split(" ");
 					Piece temp = Board.pieces.get(tokens[0]);
-					if(temp == null || 
-							(!temp.isValid(tokens[0], tokens[1]) && temp.possibleMoves.contains(tokens[1]))
+					if(temp.name.equals("K") && tokens[1].equals("g1") ){
+						Piece temp2 = Board.pieces.get("h1");
+						if (temp2.name.equals("R")&&(temp2.firstMove == true)
+								&&(temp.firstMove==true)){
+							board.pieces.remove(tokens[0])
+						}
+					}else if(temp.name.equals("K") &&  tokens[1].equals("g8")){
+						Piece temp2 = Board.pieces.get("h8");
+					}
+					else if(temp.name.equals("K") && tokens[1].equals("c1") ){
+						Piece temp2 = Board.pieces.get("a1");
+					}else if(temp.name.equals("K") &&  tokens[1].equals("c8")){
+						Piece temp2 = Board.pieces.get("a8");
+					}
+					else if(temp == null || 
+							(!temp.isValid(tokens[0], tokens[1]) && !temp.possibleMoves.contains(tokens[1]))
 							|| !temp.color.equals("w")){
 						System.out.println("Illegal move, try again");
 						System.out.println();
@@ -64,8 +78,8 @@ public class Chess {
 					String[] tokens = input.split(" ");
 					Piece temp = Board.pieces.get(tokens[0]);
 					if(temp == null || 
-							(!temp.isValid(tokens[0], tokens[1]) && temp.possibleMoves.contains(tokens[1]))
-							|| !temp.color.equals("w")){
+							(!temp.isValid(tokens[0], tokens[1]) && !temp.possibleMoves.contains(tokens[1]))
+							|| !temp.color.equals("b")){
 						System.out.println("Illegal move, try again");
 						System.out.println();
 						continue;
