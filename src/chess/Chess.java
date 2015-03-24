@@ -32,7 +32,6 @@ public class Chess {
 				if(resignFlag == 0 && drawFlag == 0){
 					String[] tokens = input.split(" ");
 					Piece temp = Board.pieces.get(tokens[0]);
-					
 					temp.getMoves();
 					if(temp == null || 
 							(!temp.isValid(tokens[0], tokens[1]) && !temp.possibleMoves.contains(tokens[1]))
@@ -48,44 +47,74 @@ public class Chess {
 						temp.setXY(newX, newY-'a');
 						board.pieces.put(tokens[1], temp);
 						Board.drawBoard();
+						Piece p = board.pieces.get(tokens[1]);
+						p.firstMove = false;
+						p.getMoves();
+						for(String key: board.pieces.keySet()){
+							Piece piece = board.pieces.get(key);
+							if(piece != null){
+								if(piece.toString().equals("bK")){
+									if (p.possibleMoves.contains(key)){
+										System.out.println("Check");
+										System.out.println();
+									}
+								}
+							}
+						}
 					}
+					flag = 1;
+
+
 				}
-				flag = 1;
-				
-			}
-			if(flag == 1){
-				input = bMove();
-				System.out.println();
-				if(!isValid(input)){
-					System.out.println("Illegal move, try again");
+				if(flag == 1){
+					input = bMove();
 					System.out.println();
-					continue;
-				}
-			
-				if(resignFlag == 0 && drawFlag == 0){
-					String[] tokens = input.split(" ");
-					Piece temp = Board.pieces.get(tokens[0]);
-					if(temp == null || 
-							(!temp.isValid(tokens[0], tokens[1]) && !temp.possibleMoves.contains(tokens[1]))
-							|| !temp.color.equals("b")){
+					if(!isValid(input)){
 						System.out.println("Illegal move, try again");
 						System.out.println();
 						continue;
-					}else{
-						board.pieces.remove(tokens[0]);
-						board.pieces.remove(tokens[1]);
-						char newY = tokens[1].charAt(0);
-						int newX = Integer.parseInt(tokens[1].substring(1));
-						temp.setXY(newX, newY-'a');
-						board.pieces.put(tokens[1], temp);
-						Board.drawBoard();
 					}
+
+					if(resignFlag == 0 && drawFlag == 0){
+						String[] tokens = input.split(" ");
+						Piece temp = Board.pieces.get(tokens[0]);
+						temp.getMoves();
+						if(temp == null || 
+								(!temp.isValid(tokens[0], tokens[1]) && !temp.possibleMoves.contains(tokens[1]))
+								|| !temp.color.equals("b")){
+							System.out.println("Illegal move, try again");
+							System.out.println();
+							continue;
+						}else{
+							board.pieces.remove(tokens[0]);
+							board.pieces.remove(tokens[1]);
+							char newY = tokens[1].charAt(0);
+							int newX = Integer.parseInt(tokens[1].substring(1));
+							temp.setXY(newX, newY-'a');
+							board.pieces.put(tokens[1], temp);
+							Board.drawBoard();
+							Piece p = board.pieces.get(tokens[1]);
+							p.firstMove = false;
+							p.getMoves();
+							for(String key: board.pieces.keySet()){
+								Piece piece = board.pieces.get(key);
+								if(piece != null){
+									if(piece.toString().equals("wK")){
+										if (p.possibleMoves.contains(key)){
+											System.out.println("Check");
+											System.out.println();
+										}
+									}
+								}
+							}
+						}
+					}
+					flag = 0;
 				}
-				flag = 0;
 			}
 		}
 	}
-	
+
 	public static boolean isValid(String input){
 		if(input == null || input.equals(""))
 			return false;
@@ -99,7 +128,7 @@ public class Chess {
 			else
 				return false;
 		}
-		
+
 		String[] tokens = input.split(" ");
 		if(tokens.length == 2 || tokens.length == 3){
 			if(tokens[0].length() != 2 || tokens[1].length() != 2)
@@ -114,7 +143,7 @@ public class Chess {
 				return false;
 			if(oldY == newY && oldX == newX)
 				return false;
-			
+
 			if(tokens.length == 3){
 				switch(tokens[2]){
 				case "N": case "R": case "B": case "Q":
@@ -128,22 +157,22 @@ public class Chess {
 			}
 			return true;
 		}
-		
+
 		return false;
 	}
-	
+
 	public static String wMove(){
 		System.out.print("White's move:");
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		try {
-			 return br.readLine();
+			return br.readLine();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return null;
 	}
-	
+
 	public static String bMove(){
 		System.out.print("Black's move:");
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
