@@ -3,6 +3,7 @@ package pieces;
 import java.util.ArrayList;
 
 import chess.Board;
+import chess.Chess;
 
 /**
  * 
@@ -42,13 +43,13 @@ public class Pawn extends Piece{
 
 		if (deltaY == 0 && deltaX == 1 && !spotTaken(newPosition)){
 			legal = true;
-		} else if (deltaX == 1 && deltaY == 1 && Board.pieces.get(newPosition)!=null){  //pawn capture IMPLEMENT CASE WHERE PAWN IS ONLY OPPOSITE COLOR
+		} else if (deltaX == 1 && deltaY == 1 && Board.pieces.get(newPosition)!=null){
 			if (Board.pieces.get(newPosition).color!=color){
 				legal  = true;
 			}
 		} else if (this.firstMove == true && deltaY == 0 && deltaX == 2 && !spotTaken(newPosition)){
+			Chess.eFlag = 1;
 			legal = true;
-
 		}
 
 		return legal;

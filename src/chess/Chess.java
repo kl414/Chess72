@@ -4,7 +4,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-import pieces.Bishop;
 import pieces.Piece;
 
 /**
@@ -15,6 +14,9 @@ import pieces.Piece;
 public class Chess {
 	static int drawFlag;
 	static int resignFlag;
+	public static int enpassantFlag;
+	public static int eFlag;
+
 	public static void main(String[] args){
 		Board board = new Board();
 		board.display();
@@ -29,10 +31,12 @@ public class Chess {
 					System.out.println();
 					continue;
 				}
-				if(resignFlag == 0 && drawFlag == 0){
+				if(resignFlag == 0){
 					String[] tokens = input.split(" ");
 					Piece temp = Board.pieces.get(tokens[0]);
-					temp.getMoves();
+					if (temp != null){
+						temp.getMoves();
+					}
 					if(temp == null || 
 							(!temp.isValid(tokens[0], tokens[1]) && !temp.possibleMoves.contains(tokens[1]))
 							|| !temp.color.equals("w")){
@@ -62,55 +66,97 @@ public class Chess {
 							}
 						}
 					}
+					if(enpassantFlag == 1){
+						enpassantFlag = 0;
+						eFlag = 0;
+					}
+					if(eFlag == 1)
+						enpassantFlag = 1;
+					if(temp.y > 0){
+						Piece tempLeft = board.pieces.get(""+(char)(temp.y+1+97)+temp.x);
+						if(tempLeft != null && tempLeft.toString().equals("bp")){
+							tempLeft.possibleMoves.add(""+(char)(temp.y+97)+(temp.x-1));
+						}
+					}
+					if(temp.y<8){
+						Piece tempRight = board.pieces.get(""+(char)(temp.y-1+97)+temp.x);
+						if(tempRight != null && tempRight.toString().equals("bp")){
+							tempRight.possibleMoves.add(""+(char)(temp.y+97)+(temp.x-1));
+						}
+					}
+
 					flag = 1;
-
-
 				}
-				if(flag == 1){
-					input = bMove();
+			}
+			if (resignFlag == 1){
+				return;
+			}
+			if (drawFlag == 1){
+				flag = 1;
+			}
+			if(flag == 1){
+				input = bMove();
+				System.out.println();
+				if(!isValid(input)){
+					System.out.println("Illegal move, try again");
 					System.out.println();
-					if(!isValid(input)){
+					continue;
+				}
+
+				if(resignFlag == 0){
+					String[] tokens = input.split(" ");
+					Piece temp = Board.pieces.get(tokens[0]);
+					temp.getMoves();
+					if(temp == null || 
+							(!temp.isValid(tokens[0], tokens[1]) && !temp.possibleMoves.contains(tokens[1]))
+							|| !temp.color.equals("b")){
 						System.out.println("Illegal move, try again");
 						System.out.println();
 						continue;
-					}
-
-					if(resignFlag == 0 && drawFlag == 0){
-						String[] tokens = input.split(" ");
-						Piece temp = Board.pieces.get(tokens[0]);
-						temp.getMoves();
-						if(temp == null || 
-								(!temp.isValid(tokens[0], tokens[1]) && !temp.possibleMoves.contains(tokens[1]))
-								|| !temp.color.equals("b")){
-							System.out.println("Illegal move, try again");
-							System.out.println();
-							continue;
-						}else{
-							board.pieces.remove(tokens[0]);
-							board.pieces.remove(tokens[1]);
-							char newY = tokens[1].charAt(0);
-							int newX = Integer.parseInt(tokens[1].substring(1));
-							temp.setXY(newX, newY-'a');
-							board.pieces.put(tokens[1], temp);
-							Board.drawBoard();
-							Piece p = board.pieces.get(tokens[1]);
-							p.firstMove = false;
-							p.getMoves();
-							for(String key: board.pieces.keySet()){
-								Piece piece = board.pieces.get(key);
-								if(piece != null){
-									if(piece.toString().equals("wK")){
-										if (p.possibleMoves.contains(key)){
-											System.out.println("Check");
-											System.out.println();
-										}
+					}else{
+						board.pieces.remove(tokens[0]);
+						board.pieces.remove(tokens[1]);
+						char newY = tokens[1].charAt(0);
+						int newX = Integer.parseInt(tokens[1].substring(1));
+						temp.setXY(newX, newY-'a');
+						board.pieces.put(tokens[1], temp);
+						Board.drawBoard();
+						Piece p = board.pieces.get(tokens[1]);
+						p.firstMove = false;
+						p.getMoves();
+						for(String key: board.pieces.keySet()){
+							Piece piece = board.pieces.get(key);
+							if(piece != null){
+								if(piece.toString().equals("wK")){
+									if (p.possibleMoves.contains(key)){
+										System.out.println("Check");
+										System.out.println();
 									}
 								}
 							}
 						}
 					}
-					flag = 0;
+					if(temp.y > 0){
+						Piece tempLeft = board.pieces.get(""+(char)(temp.y+1+97)+temp.x);
+						if(tempLeft != null && tempLeft.toString().equals("wp")){
+							tempLeft.possibleMoves.add(""+(char)(temp.y+97)+(temp.x+1));
+						}
+					}
+					if(temp.y<8){
+						Piece tempRight = board.pieces.get(""+(char)(temp.y-1+97)+temp.x);
+						if(tempRight != null && tempRight.toString().equals("wp")){
+							tempRight.possibleMoves.add(""+(char)(temp.y+97)+(temp.x+1));
+						}
+					}
 				}
+
+				flag = 0;
+			}
+			if (resignFlag == 1){
+				return;
+			}
+			if (drawFlag == 1){
+				flag = 0;
 			}
 		}
 	}
@@ -123,8 +169,10 @@ public class Chess {
 			return true;
 		}
 		else if(input.equals("draw")){
-			if(drawFlag == 1)
+			if(drawFlag == 1){
+				System.exit(0);
 				return true;
+			}
 			else
 				return false;
 		}
